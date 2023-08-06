@@ -4,6 +4,7 @@ const Cuisine = require('../models/cuisine');
 const router = express.Router();
 
 // Get all restaurants
+
 router.get('/', async (req, res) => {
   try {
     const restaurants = await Restaurant.find();

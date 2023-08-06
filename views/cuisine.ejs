@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= cuisine.name %> Details</title>
+</head>
+<body>
+  <h1><%= cuisine.name %> Details</h1>
+  <p><strong>Description:</strong> <%= cuisine.description %></p>
+  <p><strong>Veg/Non-Veg:</strong> <%= cuisine.veg ? 'Vegetarian' : 'Non-Vegetarian' %></p>
+
+  <!-- Display Cuisine Pictures -->
+  <h2>Cuisine Pictures</h2>
+  <div>
+    <% cuisine.pictures.forEach(pictureUrl => { %>
+      <img src="<%= pictureUrl %>" alt="Cuisine Picture" width="200" height="150">
+    <% }) %>
+  </div>
+
+  <h2>Ingredients</h2>
+  <ul>
+    <% cuisine.ingredients.forEach(ingredient => { %>
+      <li><%= ingredient %></li>
+    <% }) %>
+  </ul>
+</body>
+</html>

@@ -3,10 +3,33 @@ const Cuisine = require('../models/cuisine');
 
 const router = express.Router();
 
+// // Get a specific cuisine by ID
+// router.get('/:id', getCuisineById, (req, res) => {
+//   res.json(res.cuisine);
+// });
+
 // Get a specific cuisine by ID
-router.get('/:id', getCuisineById, (req, res) => {
-  res.json(res.cuisine);
+router.get('/:id', getCuisineById, async (req, res) => {
+  try {
+    res.render('cuisine', { cuisine: res.cuisine });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
+
+// Middleware to get cuisine by ID
+async function getCuisineById(req, res, next) {
+  try {
+    const cuisine = await Cuisine.findById(req.params.id);
+    if (cuisine == null) {
+      return res.status(404).json({ message: 'Cuisine not found' });
+    }
+    res.cuisine = cuisine;
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+}
 
 // Create a new cuisine
 router.post('/', async (req, res) => {
