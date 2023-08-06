@@ -24,7 +24,7 @@ app.use('/restaurants', restaurantController);
 app.use('/admin', adminController);
 app.use('/cuisines', cuisineController);
 app.get('/', (req, res) => {
-  res.json({ restaurants: '/restaurants', version: '--version(0.0.1)' });
+  res.render('home');
 });
 
 app.listen(port, () => {
