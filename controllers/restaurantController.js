@@ -3,14 +3,36 @@ const Restaurant = require('../models/restaurant');
 const Cuisine = require('../models/cuisine');
 const router = express.Router();
 
-// Get all restaurants
-
 router.get('/', async (req, res) => {
   try {
     const restaurants = await Restaurant.find();
     res.render('index', { restaurants });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+router.post('/', async (req, res) => {
+  try {
+    // Create a new restaurant object from the request body
+    const restaurant = new Restaurant({
+      name: req.body.name,
+      address: req.body.address,
+      phone: req.body.phone,
+      pictures: req.body.pictures,
+      title: req.body.title,
+      subtitle: req.body.subtitle,
+      availability: req.body.availability,
+      cuisines: [], // For now, cuisines will be added separately
+    });
+
+    // Save the new restaurant to the database
+    const newRestaurant = await restaurant.save();
+    res.status(201).json(newRestaurant);
+    // Or, if you want to redirect back to the list of restaurants
+    // res.redirect('/restaurants');
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 
@@ -25,29 +47,6 @@ router.get('/:id', getRestaurantById, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-// Create a new restaurant
-router.post('/', async (req, res) => {
-  const restaurant = new Restaurant({
-    name: req.body.name,
-    address: req.body.address,
-    phone: req.body.phone,
-    pictures: req.body.pictures,
-    title: req.body.title,
-    subtitle: req.body.subtitle,
-    availability: req.body.availability,
-    cuisines: req.body.cuisines,
-  });
-
-  try {
-    const newRestaurant = await restaurant.save();
-    res.status(201).json(newRestaurant);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// Update a restaurant by ID
 router.put('/:id', getRestaurantById, async (req, res) => {
   if (req.body.name != null) {
     res.restaurant.name = req.body.name;
@@ -82,7 +81,6 @@ router.put('/:id', getRestaurantById, async (req, res) => {
   }
 });
 
-// Delete a restaurant by ID
 router.delete('/:id', getRestaurantById, async (req, res) => {
   try {
     await res.restaurant.remove();
@@ -92,7 +90,6 @@ router.delete('/:id', getRestaurantById, async (req, res) => {
   }
 });
 
-// Middleware to get restaurant by ID
 async function getRestaurantById(req, res, next) {
   try {
     const restaurant = await Restaurant.findById(req.params.id);
@@ -105,5 +102,4 @@ async function getRestaurantById(req, res, next) {
     return res.status(500).json({ message: err.message });
   }
 }
-
 module.exports = router;

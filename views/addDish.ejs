@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add a Dish</title>
+</head>
+<body>
+  <h1>Add a Dish to <%= restaurant.name %></h1>
+  <form id="addDishForm">
+    <label for="name">Dish Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" required><br>
+
+    <label for="veg">Is it Veg?</label>
+    <input type="checkbox" id="veg" name="veg"><br>
+
+    <label for="pictures">Pictures:</label>
+    <input type="text" id="pictures" name="pictures" required><br>
+
+    <label for="ingredients">Ingredients:</label>
+    <input type="text" id="ingredients" name="ingredients" required><br>
+
+    <button type="submit">Add Dish</button>
+  </form>
+
+<script>
+  const form = document.getElementById('addDishForm');
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    try {
+      const response = await fetch(`/admin/<%= restaurant._id %>/dishes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        window.location.href = `/admin/<%= restaurant._id %>`;
+      } else {
+        const errorData = await response.json();
+        console.error(errorData.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  });
+</script>
+
+</body>
+</html>

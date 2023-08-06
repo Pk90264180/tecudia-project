@@ -17,7 +17,6 @@ router.get('/:id', getCuisineById, async (req, res) => {
   }
 });
 
-// Middleware to get cuisine by ID
 async function getCuisineById(req, res, next) {
   try {
     const cuisine = await Cuisine.findById(req.params.id);
@@ -31,7 +30,6 @@ async function getCuisineById(req, res, next) {
   }
 }
 
-// Create a new cuisine
 router.post('/', async (req, res) => {
   const cuisine = new Cuisine({
     name: req.body.name,
@@ -49,7 +47,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update a cuisine by ID
 router.put('/:id', getCuisineById, async (req, res) => {
   if (req.body.name != null) {
     res.cuisine.name = req.body.name;
@@ -75,7 +72,6 @@ router.put('/:id', getCuisineById, async (req, res) => {
   }
 });
 
-// Delete a cuisine by ID
 router.delete('/:id', getCuisineById, async (req, res) => {
   try {
     await res.cuisine.remove();
@@ -85,7 +81,6 @@ router.delete('/:id', getCuisineById, async (req, res) => {
   }
 });
 
-// Middleware to get cuisine by ID
 async function getCuisineById(req, res, next) {
   try {
     const cuisine = await Cuisine.findById(req.params.id);
