@@ -1,0 +1,19 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List of Restaurants</title>
+</head>
+<body>
+  <h1>List of Restaurants</h1>
+  <ul>
+    <% restaurants.forEach(restaurant => { %>
+      <li>
+        <a href="/restaurants/<%= restaurant._id %>">
+          <%= restaurant.name %>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>

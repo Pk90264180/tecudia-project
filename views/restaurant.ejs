@@ -1,0 +1,26 @@
+<!-- views/restaurant.ejs -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= restaurant.name %> Details</title>
+</head>
+<body>
+  <h1><%= restaurant.name %> Details</h1>
+  <p><strong>Address:</strong> <%= restaurant.address %></p>
+  <p><strong>Phone:</strong> <%= restaurant.phone %></p>
+  <p><strong>Title:</strong> <%= restaurant.title %></p>
+  <p><strong>Subtitle:</strong> <%= restaurant.subtitle %></p>
+  <p><strong>Availability:</strong> <%= restaurant.availability ? 'Open' : 'Closed' %></p>
+
+  <h2>Cuisines Available</h2>
+  <ul>
+    <% restaurant.cuisines.forEach(cuisine => { %>
+      <li>
+        <a href="/cuisines/<%= cuisine._id %>">
+          <%= cuisine.name %>
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
